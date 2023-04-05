@@ -17,6 +17,7 @@ function App() {
           path="ar/:latitude/:longitude/:color/:text"
           element={<ArWithProp />}
         />
+        <Route path="*" element={<NotFoundError />} />
       </Routes>
     </div>
   );
@@ -30,6 +31,14 @@ function ArWithProp() {
 
   return (
     <Ar latitude={latitude} longitude={longitude} color={color} text={text} />
+  );
+}
+
+function NotFoundError() {
+  return (
+    <div>
+      <h1>404 Error</h1>
+    </div>
   );
 }
 
