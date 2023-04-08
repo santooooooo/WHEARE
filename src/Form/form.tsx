@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   Button,
   Box,
+  Alert,
 } from "@mui/material";
 //import { useNavigate } from "react-router-dom";
 
@@ -68,16 +69,21 @@ export default function Form() {
         />
         {/*現在地と緯度経度の指定がない時の警告*/}
         {useNothing && (
-          <p>Please set Current Location or Latitude & Longtitude</p>
+          <Alert severity="error">
+            Please set Current Location or Latitude & Longtitude
+          </Alert>
         )}
         {/*現在地と緯度経度を共に指定している時の警告*/}
         {!useNothing && !useCurrentLocation && checked && (
-          <p>cannot set Current Location and Latitude & Longtitude together</p>
+          <Alert severity="error">
+            cannot set Current Location and Latitude & Longtitude together
+          </Alert>
         )}
         {/*緯度経度の指定が不十分な時の警告*/}
         {!useNothing && !useLatitudeAndLongtitude && !checked && (
-          <p>Please set Latitude & Longtitude</p>
+          <Alert severity="error">Please set Latitude & Longtitude</Alert>
         )}
+        <Box sx={{ m: 0.5 }} />
         <Button
           variant="outlined"
           disabled={!(useCurrentLocation || useLatitudeAndLongtitude)}
