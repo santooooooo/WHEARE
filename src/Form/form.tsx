@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import {
   TextField,
   Checkbox,
@@ -7,22 +7,36 @@ import {
   Box,
   Alert,
 } from "@mui/material";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {
+  useCurrentLocation,
+  useLatitude,
+  useLongitude,
+} from "./../DataProvider";
 
 export default function Form() {
-  const [checked, setChecked] = useState(true);
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
+  const { checked, setChecked, resetChecked } = useCurrentLocation();
+  const { latitude, setLatitude, resetLatitude } = useLatitude();
+  const { longitude, setLongitude, resetLongitude } = useLongitude();
+
+  const navigate = useNavigate();
 
   //入力値のバリデーション
-  const useCurrentLocation: boolean =
+  const checkCurrentLocation: boolean =
     checked && latitude === "" && longitude === "";
 
-  const useLatitudeAndLongtitude: boolean =
+  const checkLatitudeAndLongitude: boolean =
     !checked && latitude !== "" && longitude !== "";
 
-  const useNothing: boolean =
+  const checkNothing: boolean =
     checked === false && latitude === "" && longitude === "";
+
+  useEffect(() => {
+    resetChecked();
+    resetLatitude();
+    resetLongitude();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="form">
@@ -68,38 +82,30 @@ export default function Form() {
           }
         />
         {/*現在地と緯度経度の指定がない時の警告*/}
-        {useNothing && (
+        {checkNothing && (
           <Alert severity="error">
-            Please set Current Location or Latitude & Longtitude
+            Please set Current Location or Latitude & Longitude
           </Alert>
         )}
         {/*現在地と緯度経度を共に指定している時の警告*/}
-        {!useNothing && !useCurrentLocation && checked && (
+        {!checkNothing && !checkCurrentLocation && checked && (
           <Alert severity="error">
-            cannot set Current Location and Latitude & Longtitude together
+            cannot set Current Location and Latitude & Longitude together
           </Alert>
         )}
         {/*緯度経度の指定が不十分な時の警告*/}
-        {!useNothing && !useLatitudeAndLongtitude && !checked && (
-          <Alert severity="error">Please set Latitude & Longtitude</Alert>
+        {!checkNothing && !checkLatitudeAndLongitude && !checked && (
+          <Alert severity="error">Please set Latitude & Longitude</Alert>
         )}
         <Box sx={{ m: 0.5 }} />
         <Button
           variant="outlined"
-          disabled={!(useCurrentLocation || useLatitudeAndLongtitude)}
-          onClick={() => Submit(checked, latitude, longitude)}
+          disabled={!(checkCurrentLocation || checkLatitudeAndLongitude)}
+          onClick={() => navigate(`/url`)}
         >
           Generate URL
         </Button>
       </Box>
     </div>
   );
-}
-
-function Submit(checked: boolean, latitude: string, longitude: string): any {
-  //let navigate = useNavigate();
-  //navigate("/");
-  console.log(checked);
-  console.log(latitude);
-  console.log(longitude);
 }
