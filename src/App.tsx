@@ -13,10 +13,7 @@ function App() {
         <Route path="/" element={<Top />} />
         <Route path="form" element={<Form />} />
         <Route path="url" element={<Url />} />
-        <Route
-          path="ar/:latitude/:longitude/:color/:text"
-          element={<ArWithProp />}
-        />
+        <Route path="ar/:latitude/:longitude" element={<ArWithProp />} />
         <Route path="*" element={<NotFoundError />} />
       </Routes>
     </div>
@@ -26,12 +23,8 @@ function App() {
 function ArWithProp() {
   const { latitude } = useParams();
   const { longitude } = useParams();
-  const { color } = useParams();
-  const { text } = useParams();
 
-  return (
-    <Ar latitude={latitude} longitude={longitude} color={color} text={text} />
-  );
+  return <Ar latitude={latitude} longitude={longitude} />;
 }
 
 function NotFoundError() {

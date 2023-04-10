@@ -3,15 +3,29 @@ import {
   useCurrentLocation,
   useLatitude,
   useLongitude,
+  //useUrl,
 } from "./../DataProvider";
 
 export default function Url() {
   const { checked } = useCurrentLocation();
-  const { latitude } = useLatitude();
-  const { longitude } = useLongitude();
-  console.log(checked);
-  console.log(latitude);
-  console.log(longitude);
+  const { latitude, setLatitude } = useLatitude();
+  const { longitude, setLongitude } = useLongitude();
+  //const { url, setUrl, resetUrl } = useUrl();
+
+  if (checked) {
+    const setCurrentPosition = (pos: any) => {
+      const crd = pos.coords;
+      setLatitude(crd.latitude);
+      setLongitude(crd.longitude);
+    };
+
+    navigator.geolocation.getCurrentPosition(
+      setCurrentPosition,
+      error,
+      options
+    );
+  }
+
   return (
     <div className="url">
       <h1>This is Url Page</h1>
@@ -21,3 +35,13 @@ export default function Url() {
     </div>
   );
 }
+
+function error(err: any) {
+  console.error("Error in retrieving position", err);
+}
+
+const options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0,
+};

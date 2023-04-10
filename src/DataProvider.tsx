@@ -15,6 +15,7 @@ const LongitudeContext = createContext({
   setLongitude: (f: string): void => {},
   resetLongitude: (): void => {},
 });
+
 export const useCurrentLocation = () => useContext(CurrentLocationContext);
 export const useLatitude = () => useContext(LatitudeContext);
 export const useLongitude = () => useContext(LongitudeContext);
