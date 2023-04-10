@@ -18,19 +18,20 @@ export default function Form() {
   const { checked, setChecked, resetChecked } = useCurrentLocation();
   const { latitude, setLatitude, resetLatitude } = useLatitude();
   const { longitude, setLongitude, resetLongitude } = useLongitude();
-
   const navigate = useNavigate();
 
   //入力値のバリデーション
   const checkCurrentLocation: boolean =
     checked && latitude === "" && longitude === "";
-
   const checkLatitudeAndLongitude: boolean =
     !checked && latitude !== "" && longitude !== "";
-
   const checkNothing: boolean =
     checked === false && latitude === "" && longitude === "";
+  const checkIsNumber: boolean = !(
+    isNaN(Number(latitude)) || isNaN(Number(longitude))
+  );
 
+  //描画時に入力値をリセット
   useEffect(() => {
     resetChecked();
     resetLatitude();
@@ -97,10 +98,19 @@ export default function Form() {
         {!checkNothing && !checkLatitudeAndLongitude && !checked && (
           <Alert severity="error">Please set Latitude & Longitude</Alert>
         )}
+        {/*緯度経度の値が数値ではない時の警告*/}
+        {!checkIsNumber && (
+          <Alert severity="error">Invalid Value in Latitude & Longitude</Alert>
+        )}
         <Box sx={{ m: 0.5 }} />
         <Button
           variant="outlined"
-          disabled={!(checkCurrentLocation || checkLatitudeAndLongitude)}
+          disabled={
+            !(
+              checkCurrentLocation ||
+              (checkLatitudeAndLongitude && checkIsNumber)
+            )
+          }
           onClick={() => navigate(`/url`)}
         >
           Generate URL
