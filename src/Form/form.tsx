@@ -47,7 +47,7 @@ export default function Form() {
         sx={{
           maxWidth: 300,
           display: "inline-block",
-          border: 1,
+          border: 2,
           borderColor: "primary.main",
           borderRadius: 4,
           p: 2,
