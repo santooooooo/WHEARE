@@ -5,12 +5,14 @@ import {
   useLongitude,
 } from "./../DataProvider";
 import { TextField, Button, Box, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function Url() {
   const { checked } = useCurrentLocation();
   const { latitude, setLatitude } = useLatitude();
   const { longitude, setLongitude } = useLongitude();
   const baseUrl: string = window.location.host + "/ar/";
+  const navigate = useNavigate();
   //クリップボードにコピーした時の結果を表示
   let [copied, setCopied] = useState(false);
   const color = copied ? "success" : "primary";
@@ -31,11 +33,16 @@ export default function Url() {
   }
 
   return (
-    <div className="url">
-      <Typography variant="h5">Share URL with friends</Typography>
+    <Box
+      sx={{
+        maxWidth: 400,
+        display: "inline-block",
+      }}
+    >
+      <Typography variant="h5">Share URL with Friends</Typography>
       <Box
         sx={{
-          maxWidth: 300,
+          maxWidth: 350,
           display: "inline-block",
           border: 2,
           borderColor: "primary.main",
@@ -65,10 +72,15 @@ export default function Url() {
           {copied ? "copied" : "copy"}
         </Button>
       </Box>
-      <Button color="primary" variant="contained" sx={{ mt: 2 }}>
+      <Button
+        color="primary"
+        variant="contained"
+        sx={{ mt: 2 }}
+        onClick={() => navigate("/ar/" + latitude + longitude)}
+      >
         Go to AR Page
       </Button>
-    </div>
+    </Box>
   );
 }
 
