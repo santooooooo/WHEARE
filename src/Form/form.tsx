@@ -45,7 +45,7 @@ export default function Form() {
       <Box
         component="form"
         sx={{
-          maxWidth: 300,
+          maxWidth: 350,
           display: "inline-block",
           border: 2,
           borderColor: "primary.main",
