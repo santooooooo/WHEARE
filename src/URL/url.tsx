@@ -76,8 +76,8 @@ export default function Url() {
         color="primary"
         variant="contained"
         sx={{ mt: 2 }}
-        //onClick={() => navigate("/ar/" + latitude + longitude)}
-        href="http://santooooooo.github.io/"
+        onClick={() => navigate("/ar/" + latitude + longitude)}
+      //href="http://santooooooo.github.io/"
       >
         Go to AR Page
       </Button>
